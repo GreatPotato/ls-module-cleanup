@@ -10,7 +10,7 @@ class CleanUp_Order
 		
 		if($settings->delete_method === 'delete_permanently')
 		{
-			$time = new DateTime('- 168 hours');
+			$time = new DateTime("- $settings->order_age hours");
 			
 			$orders = Shop_Order::create()->where('status_id = ?', $status->id)->where('payment_processed is null')->where('order_datetime < ?', $time->format('Y-m-d H:i:s'))->find_all();
 			
@@ -23,7 +23,7 @@ class CleanUp_Order
 		}
 		else
 		{	
-			$time = new DateTime('- 168 hours');
+			$time = new DateTime("- $settings->order_age hours");
 
 			$orders = Shop_Order::create()->where('status_id = ?', $status->id)->where('payment_processed is null')->where('deleted_at is null')->where('order_datetime < ?', $time->format('Y-m-d H:i:s'))->find_all();
 			
